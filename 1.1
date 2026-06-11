@@ -1,0 +1,35 @@
+class PasswordManager:
+    def __init__(self):
+        self.__password = ""
+
+    @property
+    def password(self):
+        return self.__password
+
+    @password.setter
+    def password(self, value):
+        if len(value) >= 8 and any(char.isdigit() for char in value):
+            self.__password = value
+        else:
+            raise ValueError(
+                "Пароль має містити принаймні 8 символів та хоча б одну цифру"
+            )
+
+
+pm = PasswordManager()
+try:
+    pm.password = "qwerty"
+except ValueError as e:
+    print(e)
+
+
+pm = PasswordManager()
+pm.password = "securepass123"
+print(pm.password)
+
+
+pm = PasswordManager()
+try:
+    pm.password = "short1"
+except ValueError as e:
+    print(e)
