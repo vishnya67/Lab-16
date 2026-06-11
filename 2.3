@@ -1,0 +1,35 @@
+class Polynomial:
+    def __init__(self, coefficients):
+        # coefficients: [a0, a1, a2, ...] => a0 + a1*x + a2*x^2
+        self.coefficients = coefficients
+
+    def __add__(self, other):
+        max_len = max(len(self.coefficients), len(other.coefficients))
+        a = self.coefficients + [0] * (max_len - len(self.coefficients))
+        b = other.coefficients + [0] * (max_len - len(other.coefficients))
+
+        result = [a[i] + b[i] for i in range(max_len)]
+        return Polynomial(result)
+
+    def __sub__(self, other):
+        max_len = max(len(self.coefficients), len(other.coefficients))
+        a = self.coefficients + [0] * (max_len - len(self.coefficients))
+        b = other.coefficients + [0] * (max_len - len(other.coefficients))
+
+        result = [a[i] - b[i] for i in range(max_len)]
+        return Polynomial(result)
+
+    def __mul__(self, other):
+        result = [0] * (len(self.coefficients) + len(other.coefficients) - 1)
+
+        for i, a in enumerate(self.coefficients):
+            for j, b in enumerate(other.coefficients):
+                result[i + j] += a * b
+
+        return Polynomial(result)
+
+    def __call__(self, x):
+        return sum(coef * (x ** i) for i, coef in enumerate(self.coefficients))
+
+    def __repr__(self):
+        return f"Polynomial({self.coefficients})"
