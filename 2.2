@@ -1,0 +1,59 @@
+class Matrix2x2:
+    def __init__(self, a, b, c, d):
+        # | a  b |
+        # | c  d |
+        self.a = a
+        self.b = b
+        self.c = c
+        self.d = d
+
+    def __add__(self, other):
+        return Matrix2x2(
+            self.a + other.a, self.b + other.b,
+            self.c + other.c, self.d + other.d
+        )
+
+    def __sub__(self, other):
+        return Matrix2x2(
+            self.a - other.a, self.b - other.b,
+            self.c - other.c, self.d - other.d
+        )
+
+    def __mul__(self, other):
+
+        if isinstance(other, (int, float)):
+            return Matrix2x2(
+                self.a * other, self.b * other,
+                self.c * other, self.d * other
+            )
+
+
+        if isinstance(other, Matrix2x2):
+            return Matrix2x2(
+                self.a * other.a + self.b * other.c,
+                self.a * other.b + self.b * other.d,
+                self.c * other.a + self.d * other.c,
+                self.c * other.b + self.d * other.d
+            )
+
+        return NotImplemented
+
+    def __rmul__(self, other):
+        # щоб працювало scalar * matrix
+        return self.__mul__(other)
+
+    def __invert__(self):
+       
+        det = self.a * self.d - self.b * self.c
+        if det == 0:
+            raise ValueError("Матриця не має оберненої (визначник = 0)")
+
+        return Matrix2x2(
+            self.d / det,
+            -self.b / det,
+            -self.c / det,
+            self.a / det
+        )
+
+    def __repr__(self):
+        return f"Matrix2x2({self.a}, {self.b}, {self.c}, {self.d})"
